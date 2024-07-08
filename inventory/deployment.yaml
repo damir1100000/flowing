@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-deployment
+  labels:
+    app: inventory
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory
+  template:
+    metadata:
+      name: inventory
+      labels:
+        app: inventory
+    spec:
+      containers:
+        - name: inventory
+          image: damir96/inventory:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://localhost:5437/inventory
+            - name: SPRING_DATASOURCE_USER
+              value: flowing
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: password
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: localhost:9092
+      

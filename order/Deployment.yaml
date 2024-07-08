@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order
+  template:
+    metadata:
+      name: order
+      labels:
+        app: order
+    spec:
+      containers:
+        - name: order
+          image: damir96/order:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://localhost:5438/order
+            - name: SPRING_DATASOURCE_USERNAME
+              value: flowing
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: password
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: localhost:9092
